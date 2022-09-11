@@ -1,6 +1,9 @@
 import jsTPS from "../common/jsTPS.js";
 import Playlist from "./Playlist.js";
 import MoveSong_Transaction from "./transactions/MoveSong_Transaction.js";
+import AddSong_Transaction from "./transactions/AddSong_Transaction.js";
+import EditSong_Transaction from "./transactions/EditSong_Transaction.js";
+import RemoveSong_Transaction from "./transactions/RemoveSong_Transaction.js";
 
 /**
  * PlaylisterModel.js
@@ -15,7 +18,7 @@ import MoveSong_Transaction from "./transactions/MoveSong_Transaction.js";
  * inside the view of the page.
  *
  * @author McKilla Gorilla
- * @author ?
+ * @author Soroush Semer
  */
 export default class PlaylisterModel {
   /*
@@ -250,21 +253,28 @@ export default class PlaylisterModel {
     this.saveLists();
   }
 
-  addNewSong(initTitle, initArtist, initYouTubeId) {
+  addNewSong(index, initTitle, initArtist, initYouTubeId) {
     if (this.hasCurrentList()) {
       let song = {
         title: initTitle,
         artist: initArtist,
         youTubeId: initYouTubeId,
       };
-      this.currentList.songs.push(song);
+      if (index == null) {
+        this.currentList.songs.push(song);
+      } else {
+        this.currentList.songs.splice(index, 0, song);
+      }
       this.view.refreshPlaylist(this.currentList);
     }
     this.saveLists();
   }
 
-  editSong(initTitle, initArtist, initYouTubeId) {
-    if (this.hasCurrentList()) {
+  editSong(index, initTitle, initArtist, initYouTubeId) {
+    if (index != null) {
+      this.currentSong = index;
+    }
+    if (this.hasCurrentList() && this.currentSong != null) {
       if (initTitle == "") {
         initTitle = "Untitled";
       }
@@ -282,6 +292,18 @@ export default class PlaylisterModel {
       };
       this.currentList.setSongAt(this.currentSong, song);
 
+      this.view.refreshPlaylist(this.currentList);
+    }
+    this.saveLists();
+  }
+
+  deleteSong(index) {
+    if (index != null) {
+      this.currentSong = index;
+    }
+    if (this.hasCurrentList() && this.currentSong != null) {
+      this.currentList.songs.splice(this.currentSong, 1);
+      this.currentSong = null;
       this.view.refreshPlaylist(this.currentList);
     }
     this.saveLists();
@@ -307,6 +329,45 @@ export default class PlaylisterModel {
 
   addMoveSongTransaction(fromIndex, onIndex) {
     let transaction = new MoveSong_Transaction(this, fromIndex, onIndex);
+    this.tps.addTransaction(transaction);
+    this.view.updateToolbarButtons(this);
+  }
+
+  addAddSongTransaction(initTitle, initArtist, initYouTubeId) {
+    let transaction = new AddSong_Transaction(
+      this,
+      initTitle,
+      initArtist,
+      initYouTubeId
+    );
+    this.tps.addTransaction(transaction);
+    this.view.updateToolbarButtons(this);
+  }
+  addEditSongTransaction(initTitle, initArtist, initYouTubeId) {
+    let transaction = new EditSong_Transaction(
+      this,
+      this.currentSong,
+      this.getSong(this.currentSong).title,
+      this.getSong(this.currentSong).artist,
+      this.getSong(this.currentSong).youTubeId,
+      initTitle,
+      initArtist,
+      initYouTubeId
+    );
+    this.tps.addTransaction(transaction);
+    this.view.updateToolbarButtons(this);
+  }
+  addRemoveSongTransaction(index) {
+    if (index != null) {
+      this.currentSong = index;
+    }
+    let transaction = new RemoveSong_Transaction(
+      this,
+      this.currentSong,
+      this.getSong(this.currentSong).title,
+      this.getSong(this.currentSong).artist,
+      this.getSong(this.currentSong).youTubeId
+    );
     this.tps.addTransaction(transaction);
     this.view.updateToolbarButtons(this);
   }

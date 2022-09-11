@@ -5,7 +5,7 @@
  * for loading data into our controls and building other UI controls.
  *
  * @author McKilla Gorilla
- * @author ?
+ * @author Soroush Semer
  */
 export default class PlaylisterView {
   constructor() {}
@@ -18,10 +18,10 @@ export default class PlaylisterView {
   init() {
     // @todo - ONCE YOU IMPLEMENT THE FOOLPROOF DESIGN STUFF YOU SHOULD PROBABLY
     // START THESE BUTTONS OFF AS DISABLED
-    this.enableButton("add-song-button");
-    this.enableButton("undo-button");
-    this.enableButton("redo-button");
-    this.enableButton("close-button");
+    this.disableButton("add-song-button");
+    this.disableButton("undo-button");
+    this.disableButton("redo-button");
+    this.disableButton("close-button");
   }
 
   /*
@@ -214,8 +214,10 @@ export default class PlaylisterView {
     */
   updateToolbarButtons(model) {
     let tps = model.tps;
-    if (model.confirmDialogOpen) {
-      this.disableButton("add-list-button");
+    if (model.confirmDialogOpen || !model.hasCurrentList()) {
+      if (model.confirmDialogOpen) {
+        this.disableButton("add-list-button");
+      }
       this.disableButton("add-song-button");
       this.disableButton("undo-button");
       this.disableButton("redo-button");

@@ -4,7 +4,7 @@
  * This class provides responses for all user interface interactions.
  *
  * @author McKilla Gorilla
- * @author ?
+ * @author Soroush Semer
  */
 export default class PlaylisterController {
   constructor() {}
@@ -54,7 +54,7 @@ export default class PlaylisterController {
 
     //HANDLER FOR ADDING A NEW SONG BUTTON
     document.getElementById("add-song-button").onmousedown = (event) => {
-      this.model.addNewSong("Untitled", "Unknown", "dQw4w9WgXcQ");
+      this.model.addAddSongTransaction("Untitled", "Unknown", "dQw4w9WgXcQ");
     };
 
     // HANDLER FOR UNDO BUTTON
@@ -79,6 +79,7 @@ export default class PlaylisterController {
         are pressed in the three modals.
     */
   initModalHandlers() {
+    /*************************DELETE SONG MODAL******************************/
     // RESPOND TO THE USER CONFIRMING TO DELETE A PLAYLIST
     let deleteListConfirmButton = document.getElementById(
       "delete-list-confirm-button"
@@ -113,6 +114,8 @@ export default class PlaylisterController {
       deleteListModal.classList.remove("is-visible");
     };
 
+    /*************************EDIT SONG MODAL******************************/
+
     let editSongConfirmButton = document.getElementById(
       "edit-song-confirm-button"
     );
@@ -125,7 +128,11 @@ export default class PlaylisterController {
         "edit-song-youTubeId"
       ).value;
 
-      this.model.editSong(editSongTitle, editSongArtist, editSongYouTubeId);
+      this.model.addEditSongTransaction(
+        editSongTitle,
+        editSongArtist,
+        editSongYouTubeId
+      );
 
       this.model.toggleConfirmDialogOpen();
       // CLOSE THE MODAL
@@ -143,6 +150,40 @@ export default class PlaylisterController {
       // CLOSE THE MODAL
       let editSongModal = document.getElementById("edit-song-modal");
       editSongModal.classList.remove("is-visible");
+    };
+
+    /*************************DELETE SONG MODAL******************************/
+
+    let deleteSongConfirmButton = document.getElementById(
+      "delete-song-confirm-button"
+    );
+    deleteSongConfirmButton.onclick = (event) => {
+      // NOTE THAT WE SET THE ID OF THE LIST TO REMOVE
+      // IN THE MODEL OBJECT AT THE TIME THE ORIGINAL
+      // BUTTON PRESS EVENT HAPPENED
+
+      // DELETE THE LIST, THIS IS NOT UNDOABLE
+      this.model.addRemoveSongTransaction(null);
+
+      // ALLOW OTHER INTERACTIONS
+      this.model.toggleConfirmDialogOpen();
+
+      // CLOSE THE MODAL
+      let deleteSongModal = document.getElementById("delete-song-modal");
+      deleteSongModal.classList.remove("is-visible");
+    };
+
+    // RESPOND TO THE USER CLOSING THE DELETE PLAYLIST MODAL
+    let deleteSongCancelButton = document.getElementById(
+      "delete-song-cancel-button"
+    );
+    deleteSongCancelButton.onclick = (event) => {
+      // ALLOW OTHER INTERACTIONS
+      this.model.toggleConfirmDialogOpen();
+
+      // CLOSE THE MODAL
+      let deleteSongModal = document.getElementById("delete-song-modal");
+      deleteSongModal.classList.remove("is-visible");
     };
   }
 
@@ -293,6 +334,20 @@ export default class PlaylisterController {
 
         this.model.setCurrentSong(i);
         editSongModal.classList.add("is-visible");
+        this.model.toggleConfirmDialogOpen();
+      };
+
+      let deleteSongButton = document.getElementById("delete-song-" + (i + 1));
+      deleteSongButton.onclick = (event) => {
+        event.preventDefault();
+
+        let deleteSongSpan = document.getElementById("delete-song-span");
+        deleteSongSpan.innerText = this.model.currentList.songs[i].title;
+
+        this.model.setCurrentSong(i);
+
+        let deleteSongModal = document.getElementById("delete-song-modal");
+        deleteSongModal.classList.add("is-visible");
         this.model.toggleConfirmDialogOpen();
       };
     }
