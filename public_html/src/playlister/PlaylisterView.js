@@ -221,6 +221,7 @@ export default class PlaylisterView {
       this.disableButton("redo-button");
       this.disableButton("close-button");
     } else if (!model.hasCurrentList()) {
+      this.enableButton("add-list-button");
       this.disableButton("add-song-button");
       this.disableButton("undo-button");
       this.disableButton("redo-button");
@@ -236,11 +237,11 @@ export default class PlaylisterView {
       } else {
         this.enableButton("redo-button");
       }
-      this.enableButton("add-list-button");
+      this.disableButton("add-list-button");
       this.enableButton("add-song-button");
       this.enableButton("close-button");
     } else {
-      this.enableButton("add-list-button");
+      this.disableButton("add-list-button");
       this.enableButton("add-song-button");
       this.enableButton("undo-button");
       this.enableButton("redo-button");
