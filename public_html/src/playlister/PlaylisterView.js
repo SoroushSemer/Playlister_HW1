@@ -214,14 +214,31 @@ export default class PlaylisterView {
     */
   updateToolbarButtons(model) {
     let tps = model.tps;
-    if (model.confirmDialogOpen || !model.hasCurrentList()) {
-      if (model.confirmDialogOpen) {
-        this.disableButton("add-list-button");
-      }
+    if (model.confirmDialogOpen) {
+      this.disableButton("add-list-button");
       this.disableButton("add-song-button");
       this.disableButton("undo-button");
       this.disableButton("redo-button");
       this.disableButton("close-button");
+    } else if (!model.hasCurrentList()) {
+      this.disableButton("add-song-button");
+      this.disableButton("undo-button");
+      this.disableButton("redo-button");
+      this.disableButton("close-button");
+    } else if (!tps.hasTransactionToUndo() || !tps.hasTransactionToRedo()) {
+      if (!tps.hasTransactionToUndo()) {
+        this.disableButton("undo-button");
+      } else {
+        this.enableButton("undo-button");
+      }
+      if (!tps.hasTransactionToRedo()) {
+        this.disableButton("redo-button");
+      } else {
+        this.enableButton("redo-button");
+      }
+      this.enableButton("add-list-button");
+      this.enableButton("add-song-button");
+      this.enableButton("close-button");
     } else {
       this.enableButton("add-list-button");
       this.enableButton("add-song-button");

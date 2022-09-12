@@ -242,9 +242,11 @@ export default class PlaylisterController {
       textInput.setAttribute("value", this.model.currentList.getName());
       textInput.style.width = "100%";
 
+      this.model.refreshToolbar();
+      this.model.view.disableButton("add-list-button");
+
       // CHANGE THE CONTROL TO AN EDITABLE TEXT FIELD
       text.appendChild(textInput);
-      this.model.refreshToolbar();
 
       // SPECIFY HANDLERS FOR THE TEXT FIELD
       textInput.ondblclick = (event) => {

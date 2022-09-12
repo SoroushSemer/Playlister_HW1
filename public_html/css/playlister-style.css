@@ -4,11 +4,11 @@
         COLORS THAT WE'LL USE TOGETHER IN MULTIPLE PLACES THAT
         TOGETHER WILL MAKE UP A GIVEN THEME
     */
-  --swatch-foundation: #eeeedd; 
-  --swatch-primary: #e6e6e6; 
-  --swatch-complement: #e1e4cb;
-  --swatch-contrast: #111111; 
-  --swatch-accent: #669966; 
+  --swatch-foundation: #111;
+  --swatch-primary: #444;
+  --swatch-complement: #999;
+  --swatch-contrast: #111111;
+  --swatch-accent: #002255;
   --swatch-status: #123456;
   --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
 }
@@ -19,15 +19,16 @@ body {
 
 #root {
   background-color: var(--swatch-primary);
-  font-family: 'Tangerine', serif;
+  font-family: "Bangers", cursive;
   position: absolute;
   width: 80%;
   left: 10%;
-  height:90%;
+  height: 90%;
   top: 5%;
-  display:grid;
+  display: grid;
   grid-template-columns: 30% 70%;
   grid-template-rows: 10% 10% 70% 10%;
+  border-radius: 50px;
 }
 
 /* 
@@ -43,24 +44,24 @@ body {
 #banner {
   grid-column: 1 / 3;
   grid-row: 1 / 2;
-  text-align:center;
-  background-image: linear-gradient(to bottom,         
-  #b8b808, #636723);
+  text-align: center;
+  padding: 1vh;
+  background-image: linear-gradient(to bottom, #333, #222);
   color: white;
   font-size: 54pt;
   border-color: black;
   border-width: 2px;
   border-style: solid;
-  border-radius: 10px;
+  border-radius: 50px 50px 0px 0px;
 }
 
 #sidebar-heading {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-  text-align:center;
+  text-align: center;
   font-size: 36pt;
   font-weight: bold;
-  display:flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -81,6 +82,8 @@ body {
   grid-row: 2 / 3;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
   overflow: auto;
   background-color: var(--swatch-primary);
 }
@@ -97,11 +100,15 @@ body {
 #statusbar {
   grid-column: 1 / 3;
   grid-row: 4 / 5;
-  background-color: #FFA07A;
-  color: black;
+  background-color: #333;
+  color: white;
   text-align: center;
   font-size: 38pt;
   padding-top: 4px;
+  border-radius: 0px 0px 50px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /*
@@ -111,7 +118,9 @@ body {
   -unselected-list-card
   -list-card-button
 */
-.list-card, .selected-list-card, .unselected-list-card {
+.list-card,
+.selected-list-card,
+.unselected-list-card {
   font-size: 32pt;
   margin: 10px;
   padding: 20px;
@@ -127,7 +136,9 @@ body {
   background-color: var(--swatch-complement);
 }
 
-.list-card:hover, .selected-list-card:hover, .unselected-list-card:hover {
+.list-card:hover,
+.selected-list-card:hover,
+.unselected-list-card:hover {
   background-color: var(--swatch-contrast);
   color: white;
 }
@@ -137,8 +148,11 @@ body {
 }
 
 .list-card-button {
-  float:right;
-  font-size:24pt;
+  float: right;
+  font-size: 24pt;
+  border-radius: 50%;
+  height: 40pt;
+  width: 40pt;
 }
 
 .is-dragging {
@@ -147,12 +161,18 @@ body {
 }
 
 .toolbar-button {
-  font-size:36pt;
+  font-size: 36pt;
   border-width: 1px;
   border-color: black;
   border-style: solid;
   box-shadow: 2px 4px #888888;
-  border-radius: 5px;
+  border-radius: 50%;
+  height: 50pt;
+  width: 50pt;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
 }
 
 .disabled {
