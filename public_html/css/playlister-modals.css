@@ -54,12 +54,13 @@
   grid-template-columns: 30% 65%;
   grid-template-rows: 33% 33% 33%;
   gap: 10px 20px;
-  font-size: 48pt;
+  font-size: 32pt;
 }
 
 span {
   font-weight: bold;
   font-style: italic;
+  font-size: 36pt;
 }
 
 .modal-south {
@@ -79,10 +80,10 @@ span {
   font-size: 20pt;
   font-weight: bold;
   display: grid;
-  grid-template-columns: 25% 75%;
+  grid-template-columns: 30% 70%;
   grid-template-rows: 33% 33% 33%;
   gap: 10px;
-  margin: 5px;
+  margin: 10px;
   margin-bottom: 10px;
 }
 
